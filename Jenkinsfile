@@ -62,9 +62,9 @@ EOL
 stage('Remove Old Containers & Images') {
             steps {
                 sh '''
-                    docker rm -f airfare-backend || true
-                    docker rm -f airfare-frontend || true
-                    docker rm -f airfare-network || true
+                    docker rmi play_frontend:latest || true
+docker rmi play_backend:latest || true
+docker rmi aac4601c5313 || true
                     docker rmi -f $DOCKER_USER/playsuper_backend:latest || true
                     docker rmi -f $DOCKER_USER/playsuper_frontend:latest || true
                 '''
@@ -75,16 +75,24 @@ stage('Remove Old Containers & Images') {
                 sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
             }
         }
-        stage('Push Images to DockerHub') {
+      stage('Build Docker Images') {
+    steps {
+        sh 'docker-compose -f docker-compose.yml build --no-cache'
+    }
+}
+
+stage('Push Images to DockerHub') {
     steps {
         sh """
-            docker tag airfaredeploy_backend:latest $DOCKER_USER/playsuper_backend:latest
-            docker push $DOCKER_USER/playsuper_backend:latest
-            docker tag airfaredeploy_frontend:latest $DOCKER_USER/playsuper_frontend:latest
-            docker push $DOCKER_USER/playsuper_frontend:latest
+        docker tag playsuper_backend:latest $DOCKER_USER/playsuper_backend:latest
+        docker push $DOCKER_USER/playsuper_backend:latest
+
+        docker tag playsuper_frontend:latest $DOCKER_USER/playsuper_frontend:latest
+        docker push $DOCKER_USER/playsuper_frontend:latest
         """
     }
 }
+
 
         stage('Build & Deploy with Docker Compose') {
     steps {
