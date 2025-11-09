@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "FlyRoute",
-  description: "Find the cheapest flight route between two cities using AI",
+  description: "Find the cheapest flight route between two cities",
   icons: {
     icon: "/icon.jpg",
   },
