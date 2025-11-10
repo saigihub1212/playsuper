@@ -77,7 +77,7 @@ const Navbar = () => {
                   className="text-slate-300 hover:text-white transition-colors text-lg font-medium py-2 border-b border-slate-700/50"
                   onClick={closeMenu}
                 >
-                  Contact Us
+                  Contact Us asap
                 </Link>
                 <Link
                   href="/admin/login"
